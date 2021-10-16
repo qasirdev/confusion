@@ -6,10 +6,8 @@ import { DISHES } from './shared/dishes'
 import { useState } from 'react';
 
 function App() {
-  const state = {
-    dishes: DISHES
-  };
-  // const [] = useState()
+  const [dishes, setDishes] = useState(DISHES);
+
   return (
     <div className="App">
       <Navbar dark color="primary">
@@ -17,7 +15,7 @@ function App() {
           <NavbarBrand href="\">This is confusion.</NavbarBrand>
         </div>
       </Navbar>
-      <Menu dishes= {state.dishes}/>
+      <Menu dishes= {dishes}/>
     </div>
   );
 }
