@@ -9,7 +9,7 @@ function Main() {
 
   function onDishSelect(dishId) {
     setSelectedDish(dishId);
-};
+	};
 
   return (
     <div className="App">

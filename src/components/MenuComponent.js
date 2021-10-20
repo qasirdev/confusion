@@ -7,8 +7,19 @@ function Menu(props) {
 		console.log("mount it");
 		console.log(props);
 	});
+
+	function RenderMenuItem({dish, onClick}) {
+		return(
+			<Card onClick={()=> onClick(dish.id)}>
+				<CardImg width="100%"  src={dish.image} alt={dish.name} />
+				<CardImgOverlay>
+					<CardTitle >{dish.name}</CardTitle>
+				</CardImgOverlay>
+			</Card>
+		);
+	}
 	
-	function renderDish(dishId) {
+	function RenderDish(dishId) {
 		const dish = props.dishes.filter((dish)=> dish.id === dishId)[0];
 		if(dish) {
 			return(
@@ -28,12 +39,7 @@ function Menu(props) {
 	const menu = props.dishes.map((dish) => {
 		return (
 			<div key={dish.id} className="col-12 col-md-5 m-1">
-				<Card onClick={()=> props.onClick(dish.id)}>
-					<CardImg width="100%"  src={dish.image} alt={dish.name} />
-					<CardImgOverlay>
-						<CardTitle >{dish.name}</CardTitle>
-					</CardImgOverlay>
-				</Card>
+				<RenderMenuItem dish={dish} onClick={props.onClick} />
 			</div>
 		);
 	});
@@ -44,7 +50,7 @@ function Menu(props) {
 				{menu}
 			</div>
 			<div className="row">
-				{renderDish(props.selectedDish)}
+				{RenderDish(props.selectedDish)}
 			</div>
 		</div>
 	);
