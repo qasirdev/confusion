@@ -30,12 +30,22 @@ function Main() {
 			/>
 		);
 	}
+
+	function DishWithId({match}) {
+		return(
+			<div>
+				<h1>Name: {dishes.filter((dish) => dish.id === parseInt(match.params.dishId,10))[0]['name']}</h1>
+			</div>
+		);
+	}
+
   return (
     <div>
 			<Header />
 				<Switch>
 					<Route path="/home" component={HomePage} />
 					<Route exact path="/menu" component={() => <Menu dishes={dishes} />} />
+					<Route path="/menu/:dishId" component={DishWithId} />
 					<Route path="/contactus" component={Contact} />
 					<Redirect to="/home" />
 				</Switch>
