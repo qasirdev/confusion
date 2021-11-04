@@ -10,9 +10,49 @@ function Contact(props) {
 		email: '',
 		agree: false,
 		contactType: 'Tel.',
-		message: ''
+		message: '',
+		touched: {
+			firstname: false,
+			lastname: false,
+			telnum: false,
+			email: false
+		}
 	});
 
+	function validate(firstname, lastname, telnum, email) {
+		const errors = {
+			firstname: '',
+			lastname: '',
+			telnum: '',
+			email: ''
+		};
+		if(contactForm.touched.firstname && firstname.length < 3) {
+			errors.firstname = 'First Name should be >= 3 characters';
+		} else if (contactForm.touched.firstname && firstname.length > 10) {
+			errors.firstname = 'First Name should be <= 10 characters';
+		}
+
+		if(contactForm.touched.lastname && firstname.lastname < 3) {
+			errors.lastname = 'Last Name should be >= 3 characters';
+		} else if (contactForm.touched.lastname && lastname.length > 10) {
+			errors.lastname = 'Last Name should be <= 10 characters';
+		}
+
+		const reg = /^\d+$/;
+		if(contactForm.touched.telnum && !reg.test(telnum)) {
+			errors.lastname = 'Last Name should be >= 3 characters';
+		}
+		if(contactForm.touched.email && email.split('').filter(x => x === '@').length !== 1) {
+			errors.email = 'Email should contain a @';
+		}
+
+		return errors;
+	}
+	function handleBlur(field) {
+		// setContactFrom({
+		// 	...contactForm.touched[field] , [field]: true
+		// });
+	};
 	function handleInputChange(e) {
 		const target = e.target;
 		const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -28,6 +68,8 @@ function Contact(props) {
 		alert('Current state is: ' + JSON.stringify(contactForm));
 		e.preventDefault();
 	};
+
+	const errors = validate(contactForm.firstname, contactForm.lastname, contactForm.telnum, contactForm.email);
 
 	return (
 		<div className="container">
@@ -69,6 +111,9 @@ function Contact(props) {
 								<Input type="text" id="firstname" name="firstname"
 									placeholder="First Name"
 									value={contactForm.firstname}
+									valid={errors.firstname === ''}
+									invalid={errors.firstname !== ''}
+									onBlur={handleBlur('firstname')}
 									onChange={handleInputChange} />
 							</Col>
 						</FormGroup>
@@ -78,6 +123,9 @@ function Contact(props) {
 								<Input type="text" id="lastname" name="lastname"
 									placeholder="Last Name"
 									value={contactForm.lastname}
+									valid={errors.lastname === ''}
+									invalid={errors.lastname !== ''}
+									onBlur={handleBlur('lastname')}
 									onChange={handleInputChange} />
 							</Col>                        
 						</FormGroup>
@@ -87,6 +135,9 @@ function Contact(props) {
 								<Input type="tel" id="telnum" name="telnum"
 									placeholder="Tel. number"
 									value={contactForm.telnum}
+									valid={errors.telnum === ''}
+									invalid={errors.telnum !== ''}
+									onBlur={handleBlur('telnum')}
 									onChange={handleInputChange} />
 							</Col>
 						</FormGroup>
@@ -96,6 +147,9 @@ function Contact(props) {
 								<Input type="email" id="email" name="email"
 									placeholder="Email"
 									value={contactForm.email}
+									valid={errors.email === ''}
+									invalid={errors.email !== ''}
+									onBlur={handleBlur('email')}
 									onChange={handleInputChange} />
 							</Col>
 						</FormGroup>
@@ -106,7 +160,7 @@ function Contact(props) {
 									<Input type="checkbox"
 											name="agree"
 											checked={contactForm.agree}
-											onChange={handleInputChange} /> {' '}
+											onChange={handleInputChange} />
 										<strong>May we contact you?</strong>
 									</Label>
 								</FormGroup>
